@@ -1,0 +1,2 @@
+dotnet publish
+cp -R bin/Release/net8.0/publish/wwwroot/ dist/

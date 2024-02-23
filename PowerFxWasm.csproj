@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <PowerFxVersion>1.2.0</PowerFxVersion>
-    <WebAssemblyVerion>7.0.1</WebAssemblyVerion>
+    <WebAssemblyVerion>8.0.0</WebAssemblyVerion>
     <UICulture>en-GB</UICulture>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="$(WebAssemblyVerion)" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="$(WebAssemblyVerion)" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="$(WebAssemblyVerion)" />
 
     <PackageReference Include="Microsoft.PowerFx.Core" Version="$(PowerFxVersion)" GeneratePathProperty="true" />
     <PackageReference Include="Microsoft.PowerFx.Interpreter" Version="$(PowerFxVersion)" />
@@ -18,4 +18,11 @@
     <PackageReference Include="Microsoft.PowerFx.LanguageServerProtocol" Version="$(PowerFxVersion)" />
   </ItemGroup>
 
+   <ItemGroup>
+      <!-- Plex requires the satellite resource dll be copied to the output directory. 
+       $(PkgMicrosoft_PowerFx_Core) var is set by GeneratePathProperty=true on the PackageReference. -->
+      <None Include="$(PkgMicrosoft_PowerFx_Core)\lib\netstandard2.0\en-US\Microsoft.PowerFx.Core.resources.dll" Link="Microsoft.PowerFx.Core.resources.dll">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+  </ItemGroup>
 </Project>
