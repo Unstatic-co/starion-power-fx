@@ -5,7 +5,7 @@ using Microsoft.PowerFx.Intellisense;
 using Microsoft.PowerFx.Types;
 using System;
 using System.Web;
-
+using System.Globalization;
 namespace PowerFxWasm.Model
 {
     public class PowerFxScopeFactory : IPowerFxScopeFactory
@@ -25,7 +25,7 @@ namespace PowerFxWasm.Model
         {
             var engine = GetEngine();
 
-            ParserOptions opts = new ParserOptions();
+            ParserOptions opts = new ParserOptions(new CultureInfo("en-US"));
             var record = (RecordValue) FormulaValueJSON.FromJson(contextJson);
             var symbols = ReadOnlySymbolTable.NewFromRecord(record.Type);
 

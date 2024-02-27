@@ -1,2 +1,8 @@
 dotnet publish
-cp -R bin/Release/net8.0/publish/wwwroot/ dist/
+ver="a"
+echo $ver
+if [["7" =~ "7"]]; then
+	cp -R bin/Debug/net7.0/publish/wwwroot/ dist/7
+else
+	cp -R bin/Release/net8.0/publish/wwwroot/ dist/8
+fi
