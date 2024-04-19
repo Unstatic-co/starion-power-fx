@@ -12,15 +12,7 @@ namespace PowerFxWasm.Model
         internal static string TestToString(FormulaValue result)
         {
             StringBuilder sb = new StringBuilder();
-            try
-            {
-                TestToString(result, sb);
-            }
-            catch (Exception e)
-            {
-                // This will cause a diff and test failure below. 
-                sb.Append($"<exception writing result: {e.Message}>");
-            }
+            TestToString(result, sb);
 
             string actualStr = sb.ToString();
             return actualStr;
