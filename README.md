@@ -27,7 +27,7 @@ Edit file `PowerFxWasm.csproj`:
 Then run command line:
 
 ```sh
-sh publish
+dotnet publish
 cp -R bin/Release/net8.0/publish/wwwroot/ dist/8
 ```
 
@@ -48,6 +48,6 @@ Edit file `PowerFxWasm.csproj`:
 Then run command line:
 
 ```sh
-sh publish
+dotnet publish
 cp -R bin/Debug/net7.0/publish/wwwroot/ dist/7
 ```

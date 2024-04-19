@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "PowerFxWasm",
   "resources": {
-    "hash": "sha256-M5Q+pAzGbW9kQAtSj9n9cqFHNL/yA8qtENpJ/XASFxk=",
+    "hash": "sha256-Zkb623R5QhSdwwT0sySko0M3qcqYGAh942f3X8wQ9WQ=",
     "jsModuleNative": {
       "dotnet.native.8.0.2.a0tiim05zp.js": "sha256-JzakxnUjUVFmawHMC5xplEtBhqMuTa9EbKY+JVQkjoc="
     },
@@ -38,7 +38,7 @@
       "Microsoft.PowerFx.LanguageServerProtocol.wasm": "sha256-+UHEvStMvp83OXP0BGjzw7k4mhOtxlaY6+dQF6Aumo4=",
       "Microsoft.PowerFx.Transport.Attributes.wasm": "sha256-3gjARxdr6eUoEFP4VEaICNvt0c8BO4u4UpzDBAAQlU4=",
       "netstandard.wasm": "sha256-K/bw2gfxiqBOUwA+RFEkjlOnVXuxHOs/26uWDu0WGkU=",
-      "PowerFxWasm.wasm": "sha256-txN+vnOdhI99j49O3DIJpOXqN7WwineRgemhqR6ZzAU=",
+      "PowerFxWasm.wasm": "sha256-+oMd2sEeFClASUKQO+BUcxRrd6t9lgXBOSSwrAL+FI4=",
       "System.Collections.Concurrent.wasm": "sha256-ZO8NmhdaQHa5fwvt0UDid06dvWxP4OX7dAVuo3gksRQ=",
       "System.Collections.Immutable.wasm": "sha256-nsZL+vzzLATSr6QRqpFw7RJDStJdbKBhM/2t/AZCiK8=",
       "System.Collections.NonGeneric.wasm": "sha256-NW0kBlRHT97fUU223LNv5mSKmi+GKlYYzdoUUc+M+BE=",

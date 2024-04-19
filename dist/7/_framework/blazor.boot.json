@@ -1,7 +1,7 @@
 {
   "entryAssembly": "PowerFxWasm",
   "resources": {
-    "hash": "sha256-YB3gecKtTT54T+VjKa+zjp3RCK/297/uYc6NIa7EP0M=",
+    "hash": "sha256-ugU40BGHmcMZ5EkYyvlkTXt0BPBHIP5HuXbsCTYgrLs=",
     "runtime": {
       "dotnet.7.0.16.p85ayod09o.js": "sha256-4BiArKugJJtpQrznGF5zWfmJ2TB98+p6rKsyoqhtMk4=",
       "dotnet.timezones.blat": "sha256-rwyJqJu36keQwNmm/O1XV7tnkkVldIOK8GIjn4gTUt4=",
@@ -32,7 +32,7 @@
       "Microsoft.PowerFx.LanguageServerProtocol.dll": "sha256-8JRVYFd5gyWFnDirdvTamdmIvubb5o8KI1xStIbHmGA=",
       "Microsoft.PowerFx.Transport.Attributes.dll": "sha256-rFQ5PYOHoALt0BzJlYhJhgcPpvCiroy4F1kwwRf/yjU=",
       "netstandard.dll": "sha256-6Br2gGQZBT6+RRr7COeTZotWF3BMc8E510jXu96mdK0=",
-      "PowerFxWasm.dll": "sha256-pOeiw105B4xtMaHeOT4zRQK7uo2JAjluHOd8uQhBuAc=",
+      "PowerFxWasm.dll": "sha256-iviL5Jdr7GRrnauLWWDpAQoAcygb/+769haJoWVi2fM=",
       "System.Collections.Concurrent.dll": "sha256-21tM9bk3GpLbXKztmQnQJRWZdWUiZSfy8BkuhgdC9GY=",
       "System.Collections.dll": "sha256-R+AE6iNjuAK0jYt3x3uSMEAbpYBjPbjsAzXKiYy6YYQ=",
       "System.Collections.Immutable.dll": "sha256-+ibhtB4JzwuwsXT9eyEkfW9DcS1nsQQNz0A3ywIckXw=",

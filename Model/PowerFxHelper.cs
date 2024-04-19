@@ -107,7 +107,7 @@ namespace PowerFxWasm.Model
                 foreach (var field in fields)
                 {
                     sb.Append(dil);
-                    sb.Append(field.Name);
+                    sb.Append('"' + field.Name + '"');
                     sb.Append(':');
                     TestToString(field.Value, sb);
 
@@ -122,7 +122,7 @@ namespace PowerFxWasm.Model
             }
             else if (result is BlankValue)
             {
-                sb.Append("Blank()");
+                sb.Append("");
             }
             else if (result is DateValue d)
             {
@@ -136,9 +136,9 @@ namespace PowerFxWasm.Model
                 var dateTime = dt.Value;
                 sb.Append($"DateTime({dateTime.Year},{dateTime.Month},{dateTime.Day},{dateTime.Hour},{dateTime.Minute},{dateTime.Second},{dateTime.Millisecond})");
             }
-            else if (result is ErrorValue)
+            else if (result is ErrorValue er)
             {
-                sb.Append(result);
+                throw new InvalidOperationException($"error value: {er.ToObject().ToString()}");
             }
             else
             {
