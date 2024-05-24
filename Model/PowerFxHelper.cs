@@ -9,6 +9,7 @@ namespace PowerFxWasm.Model
     // This should get shared with Repl or from framework.
     public class PowerFxHelper
     {
+        [Obsolete]
         internal static string TestToString(FormulaValue result)
         {
             StringBuilder sb = new StringBuilder();
@@ -21,6 +22,7 @@ namespace PowerFxWasm.Model
         // $$$ Move onto FormulaValue. 
         // Result here should be a string value that could be parsed. 
         // Normalize so we can use this in test cases. 
+        [Obsolete]
         internal static void TestToString(FormulaValue result, StringBuilder sb)
         {
             if (result is DecimalValue dec)
@@ -42,7 +44,7 @@ namespace PowerFxWasm.Model
             }
             else if (result is TableValue t)
             {
-                var tableType = (TableType)t.Type;
+                var tableType = t.Type;
                 var canUseSquareBracketSyntax = t.IsColumn && t.Rows.All(r => r.IsValue) && tableType.FieldNames.First() == "Value";
                 if (canUseSquareBracketSyntax)
                 {
@@ -130,7 +132,7 @@ namespace PowerFxWasm.Model
             }
             else if (result is ErrorValue er)
             {
-                throw new InvalidOperationException($"error value: {er.ToObject().ToString()}");
+                throw new InvalidOperationException($"error value: {er.ToObject()}");
             }
             else
             {

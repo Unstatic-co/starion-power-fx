@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <PowerFxVersion>1.2.0</PowerFxVersion>
-    <WebAssemblyVerion>7.0.0</WebAssemblyVerion>
+    <WebAssemblyVerion>8.0.0</WebAssemblyVerion>
     <UICulture>en-GB</UICulture>
   </PropertyGroup>
   <ItemGroup>
