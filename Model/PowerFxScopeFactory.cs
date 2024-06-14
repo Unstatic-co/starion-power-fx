@@ -1,6 +1,5 @@
 ﻿using Microsoft.PowerFx;
 using Microsoft.PowerFx.Core;
-using Microsoft.PowerFx.Core.Public;
 using Microsoft.PowerFx.Intellisense;
 using Microsoft.PowerFx.Types;
 using System;
@@ -11,11 +10,22 @@ namespace PowerFxWasm.Model
     public class PowerFxScopeFactory : IPowerFxScopeFactory
     {
         // Ensure that we're getting the same engine used by intellisense (LSP) and evaluation.
-        public RecalcEngine GetEngine()
+        public RecalcEngine GetEngine(ReflectionFunction[]? functions = null)
         {
             // If the engine requires additional symbols to load, server
             // should find a way to safely cache it. 
             var config = new PowerFxConfig();
+            config.EnableSetFunction();
+            config.EnableJsonFunctions();
+
+            if(functions != null)
+            {
+                foreach (var function in functions)
+                {
+                    config.AddFunction(function);
+                }
+            }
+
             var engine = new RecalcEngine(config);
             return engine;
         }
@@ -23,10 +33,11 @@ namespace PowerFxWasm.Model
         // A scope wraps the engine and provides parameters used for intellisense.
         public EditorContextScope GetScope(string contextJson)
         {
-            var engine = GetEngine();
+            var engineContext = new PowerFxEngineContext(contextJson);
+            var engine = GetEngine(engineContext.functions);
 
             ParserOptions opts = new ParserOptions(new CultureInfo("en-US"));
-            var record = (RecordValue) FormulaValueJSON.FromJson(contextJson);
+            var record = (RecordValue)FormulaValueJSON.FromJson(engineContext.jsonContext);
             var symbols = ReadOnlySymbolTable.NewFromRecord(record.Type);
 
             var scope = engine.CreateEditorScope(opts, symbols);

@@ -10,7 +10,6 @@ using PowerFxWasm.Model;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Globalization;
-using  System.Threading;
 
 namespace PowerFxWasm
 {
@@ -42,18 +41,20 @@ namespace PowerFxWasm
             }
         };
         [JSInvokable]
+        [Obsolete]
         public static async Task<string> EvaluateAsync(string context, string expression)
         {
-            IReadOnlyList<Token> tokens = null;
-            CheckResult check = null;
+            IReadOnlyList<Token>? tokens = null;
+            CheckResult? check = null;
             var cts = new CancellationTokenSource();
             var _timeout = TimeSpan.FromSeconds(2);
             cts.CancelAfter(_timeout);
             try
             {
-                var engine = new PowerFxScopeFactory().GetEngine();
+                var engineContext = new PowerFxEngineContext(context);
+                var engine = new PowerFxScopeFactory().GetEngine(engineContext.functions);
 
-                var parameters = (RecordValue)FormulaValueJSON.FromJson(context);
+                var parameters = (RecordValue)FormulaValueJSON.FromJson(engineContext.jsonContext);
 
                 if (parameters == null)
                 {
@@ -70,7 +71,7 @@ namespace PowerFxWasm
                 return JsonSerializer.Serialize(new
                 {
                     result = resultString,
-                    tokens = tokens,
+                    tokens,
                     parse = JsonSerializer.Serialize(check.Parse.Root, _jsonSerializerOptions)
                 }, new JsonSerializerOptions
                 {
@@ -82,7 +83,7 @@ namespace PowerFxWasm
                 return JsonSerializer.Serialize(new
                 {
                     error = ex.Message,
-                    tokens = tokens,
+                    tokens,
                     parse = check != null ? JsonSerializer.Serialize(check.Parse.Root, _jsonSerializerOptions) : null
                 }, new JsonSerializerOptions
                 {
@@ -96,22 +97,24 @@ namespace PowerFxWasm
         }
 
         [JSInvokable]
+        [Obsolete]
         public static async Task<string> BatchEvaluateAsync(string[] contexts, string expression)
         {
-            IReadOnlyList<Token> tokens = null;
-            CheckResult check = null;
+            IReadOnlyList<Token>? tokens = null;
+            CheckResult? check = null;
             var cts = new CancellationTokenSource();
             var _timeout = TimeSpan.FromSeconds(2);
             cts.CancelAfter(_timeout);
             try
             {
-                var firstParameters = (RecordValue)FormulaValueJSON.FromJson(contexts[0]);
+                var engineContext = new PowerFxEngineContext(contexts[0]);
+                var firstParameters = (RecordValue)FormulaValueJSON.FromJson(engineContext.jsonContext);
                 if (firstParameters == null)
                 {
                     firstParameters = RecordValue.Empty();
                 }
-
-                var engine = new PowerFxScopeFactory().GetEngine();
+                
+                var engine = new PowerFxScopeFactory().GetEngine(engineContext.functions);
                 tokens = engine.Tokenize(expression);
                 check = engine.Check(expression, firstParameters.Type, options: new ParserOptions(new CultureInfo("en-US")));
                 check.ThrowOnErrors();
@@ -121,7 +124,8 @@ namespace PowerFxWasm
 
                 foreach (string context in contexts)
                 {
-                    var parameters = (RecordValue)FormulaValueJSON.FromJson(context);
+                    var currentEngineContext = new PowerFxEngineContext(context);
+                    var parameters = (RecordValue)FormulaValueJSON.FromJson(currentEngineContext.jsonContext);
                     if (parameters == null)
                     {
                         parameters = RecordValue.Empty();
@@ -133,16 +137,16 @@ namespace PowerFxWasm
                         var resultString = PowerFxHelper.TestToString(result);
                         results.Add(resultString);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
-                        results.Add(null);
+                        results.Add("");
                     }
                 }
 
                 return JsonSerializer.Serialize(new
                 {
                     result = results.ToArray(),
-                    tokens = tokens,
+                    tokens,
                     parse = JsonSerializer.Serialize(check.Parse.Root, _jsonSerializerOptions)
                 }, new JsonSerializerOptions
                 {
@@ -154,7 +158,7 @@ namespace PowerFxWasm
                 return JsonSerializer.Serialize(new
                 {
                     error = ex.Message,
-                    tokens = tokens,
+                    tokens,
                     parse = check != null ? JsonSerializer.Serialize(check.Parse.Root, _jsonSerializerOptions) : null
                 }, new JsonSerializerOptions
                 {
@@ -168,22 +172,15 @@ namespace PowerFxWasm
         }
 
         [JSInvokable]
-        public static async Task<string> LspAsync(string body)
+        public static string LspAsync(string body)
         {
             var scopeFactory = new PowerFxScopeFactory();
 
             var sendToClientData = new List<string>();
-            var languageServer = new LanguageServer((string data) => sendToClientData.Add(data), scopeFactory);
+            var languageServer = new LanguageServer(sendToClientData.Add, scopeFactory);
 
-            try
-            {
-                languageServer.OnDataReceived(body.ToString());
-                return JsonSerializer.Serialize(sendToClientData.ToArray());
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            languageServer.OnDataReceived(body.ToString());
+            return JsonSerializer.Serialize(sendToClientData.ToArray());
         }
     }
 }
