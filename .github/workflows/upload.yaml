@@ -11,7 +11,7 @@ jobs:
     uses: ./.github/workflows/config-env.yaml
   upload:
     needs: config-env
-    runs-on: [linux]
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     environment:
       name: ${{ needs.config-env.outputs.current_env }}
