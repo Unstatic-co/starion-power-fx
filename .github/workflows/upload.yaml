@@ -7,11 +7,11 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  config-env:
+  config-env: 
     uses: ./.github/workflows/config-env.yaml
   upload:
     needs: config-env
-    runs-on: [self-hosted, linux]
+    runs-on: [linux]
     timeout-minutes: 30
     environment:
       name: ${{ needs.config-env.outputs.current_env }}

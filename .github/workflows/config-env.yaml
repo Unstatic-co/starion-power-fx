@@ -7,7 +7,7 @@ on:
         value: ${{ jobs.config.outputs.current_env}}
 jobs:
   config:
-    runs-on: [self-hosted, linux]
+    runs-on: [linux]
     outputs:
       current_env: ${{ steps.setenv.outputs.current_env }}
     steps:
