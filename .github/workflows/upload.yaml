@@ -1,0 +1,56 @@
+name: "Upload to cloudflare R2"
+on:
+  release:
+    types: [created]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  config-env:
+    uses: ./.github/workflows/config-env.yaml
+  upload:
+    needs: config-env
+    runs-on: [self-hosted, linux]
+    timeout-minutes: 30
+    environment:
+      name: ${{ needs.config-env.outputs.current_env }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.8.0
+          registry-url: "https://npm.pkg.github.com"
+      - name: Enable corepack
+        shell: bash
+        run: corepack enable
+      # Start install pnpm
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      # End install pnpm
+      - name: Install Dependencies
+        shell: bash
+        run: |
+          pnpm install -C scripts/
+      - name: Upload to Cloudflare
+        shell: bash
+        run: |
+          node scripts/upload.js ${{ github.ref_name }} ${{ secrets.R2_ENDPOINT }} ${{ secrets.BUCKET_NAME }} ${{ secrets.R2_ACCESS_KEY }} ${{ secrets.R2_SECRET_KEY }}

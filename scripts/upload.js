@@ -1,10 +1,11 @@
 import fs from "fs";
-import path from "path";
+import path, { parse } from "path";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { gzipSync } from "zlib";
 import mime from "mime";
 import PQueue from "p-queue";
 import { argv } from "process";
+import * as semver from "semver"
 
 const basePath = "dist";
 const version = argv[2] || "1.0.0";
@@ -80,6 +81,22 @@ function getAllFiles(basePath) {
 }
 
 function uploadFiles() {
+	const parsedVersion = semver.parse(version.split('@')[0]);
+	
+	if(!parsedVersion) {
+		console.error("Invalid version format. Please use semver format (e.g. 1.0.0)");
+		return;
+	}
+
+	console.log("---------Configuration--------");
+	console.log(`Version             : ${parsedVersion.version}`);
+	console.log(`Base Path           : ${basePath}`);
+	console.log(`S3 Client Endpoint  : ${s3Endpoint}`);
+	console.log(`S3 Client Bucket    : ${s3Bucket}`);
+	console.log(`S3 Client Access Key: ${s3AccessKey}`);
+	console.log(`S3 Client Secret    : ${s3Secret}`);
+	console.log("------------------------------");
+	
 	const folderPath = path.resolve(process.cwd(), basePath);
 	const files = getAllFiles(folderPath);
 	const client = new S3Client({
@@ -105,7 +122,7 @@ function uploadFiles() {
 						client,
 						s3Bucket,
 						computeFileName(
-							version,
+							parsedVersion.version,
 							path.resolve(file.path.replace(folderPath, ""), file.name)
 						),
 						fileContent

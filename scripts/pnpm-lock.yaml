@@ -8,12 +8,18 @@ dependencies:
   '@aws-sdk/client-s3':
     specifier: ^3.600.0
     version: 3.600.0
+  '@types/semver':
+    specifier: ^7.5.8
+    version: 7.5.8
   mime:
     specifier: ^4.0.3
     version: 4.0.3
   p-queue:
     specifier: ^8.0.1
     version: 8.0.1
+  semver:
+    specifier: ^7.6.2
+    version: 7.6.2
 
 packages:
 
@@ -1115,6 +1121,10 @@ packages:
       tslib: 2.6.3
     dev: false
 
+  /@types/semver@7.5.8:
+    resolution: {integrity: sha512-I8EUhyrgfLrcTkzV3TSsGyl1tSuPrEDzr0yd5m90UgNxQkyDXULk3b6MlQqTCpZpNtWe1K0hzclnZkTcLBe2UQ==}
+    dev: false
+
   /bowser@2.11.0:
     resolution: {integrity: sha512-AlcaJBi/pqqJBIQ8U9Mcpc9i8Aqxn88Skv5d+xBX006BY5u8N3mGLHa5Lgppa7L/HfwgwLgZ6NYs+Ag6uUmJRA==}
     dev: false
@@ -1147,6 +1157,12 @@ packages:
   /p-timeout@6.1.2:
     resolution: {integrity: sha512-UbD77BuZ9Bc9aABo74gfXhNvzC9Tx7SxtHSh1fxvx3jTLLYvmVhiQZZrJzqqU0jKbN32kb5VOKiLEQI/3bIjgQ==}
     engines: {node: '>=14.16'}
+    dev: false
+
+  /semver@7.6.2:
+    resolution: {integrity: sha512-FNAIBWCx9qcRhoHcgcJ0gvU7SN1lYU2ZXuSfl04bSC5OpvDHFyJCjdNHomPXxjQlCBU67YW64PzY7/VIEH7F2w==}
+    engines: {node: '>=10'}
+    hasBin: true
     dev: false
 
   /strnum@1.0.5:

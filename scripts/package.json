@@ -4,7 +4,9 @@
 	"type": "module",
 	"dependencies": {
 		"@aws-sdk/client-s3": "^3.600.0",
+		"@types/semver": "^7.5.8",
 		"mime": "^4.0.3",
-		"p-queue": "^8.0.1"
+		"p-queue": "^8.0.1",
+		"semver": "^7.6.2"
 	}
 }
