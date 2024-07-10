@@ -5,14 +5,20 @@ import { gzipSync } from "zlib";
 import mime from "mime";
 import PQueue from "p-queue";
 import { argv } from "process";
-import * as semver from "semver"
+import * as semver from "semver";
+import {config} from "dotenv";
 
-const basePath = "dist";
+config({
+	debug: true,
+	path: ['.env.local', '.env'],
+});
+
+const basePath = process.env.BASE_PATH;;
 const version = argv[2] || "1.0.0";
-const s3Endpoint = argv[3];
-const s3Bucket = argv[4];
-const s3AccessKey = argv[5];
-const s3Secret = argv[6];
+const s3Endpoint = process.env.R2_ENDPOINT;
+const s3Bucket = process.env.R2_BUCKET_NAME;
+const s3AccessKey = process.env.R2_ACCESS_KEY;
+const s3Secret = process.env.R2_SECRET_KEY;
 
 /**
  *
