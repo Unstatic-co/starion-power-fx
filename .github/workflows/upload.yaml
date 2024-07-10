@@ -53,7 +53,7 @@ jobs:
       - name: Upload to Cloudflare
         shell: bash
         run: |
-          echo BASE_PATH=${{ secrets.BASE_PATH }} >> .env.local
+          echo BASE_PATH=dist >> .env.local
           echo R2_ENDPOINT=${{ secrets.R2_ENDPOINT }} >> .env.local
           echo R2_BUCKET_NAME=${{ secrets.R2_BUCKET_NAME }} >> .env.local
           echo R2_ACCESS_KEY=${{ secrets.R2_ACCESS_KEY }} >> .env.local
