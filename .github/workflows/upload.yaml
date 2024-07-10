@@ -53,4 +53,5 @@ jobs:
       - name: Upload to Cloudflare
         shell: bash
         run: |
+          echo ${{ secrets.R2_SECRET_KEY }} >> .env
           node scripts/upload.js ${{ github.ref_name }} ${{ secrets.R2_ENDPOINT }} ${{ secrets.BUCKET_NAME }} ${{ secrets.R2_ACCESS_KEY }} ${{ secrets.R2_SECRET_KEY }}
