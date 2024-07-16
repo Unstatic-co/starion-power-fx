@@ -54,8 +54,8 @@ jobs:
         shell: bash
         run: |
           echo BASE_PATH=dist >> .env.local
-          echo R2_ENDPOINT=${{ secrets.R2_ENDPOINT }} >> .env.local
-          echo R2_BUCKET_NAME=${{ secrets.R2_BUCKET_NAME }} >> .env.local
+          echo R2_ENDPOINT=${{ vars.R2_ENDPOINT }} >> .env.local
+          echo R2_BUCKET_NAME=${{ vars.R2_BUCKET_NAME }} >> .env.local
           echo R2_ACCESS_KEY=${{ secrets.R2_ACCESS_KEY }} >> .env.local
           echo R2_SECRET_KEY=${{ secrets.R2_SECRET_KEY }} >> .env.local
           node scripts/upload.js ${{ github.ref_name }}
