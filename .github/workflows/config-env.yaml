@@ -1,0 +1,26 @@
+name: "Config Environment"
+on:
+  workflow_call:
+    outputs:
+      current_env:
+        description: "Current Environment"
+        value: ${{ jobs.config.outputs.current_env}}
+jobs:
+  config:
+    runs-on: ubuntu-latest
+    outputs:
+      current_env: ${{ steps.setenv.outputs.current_env }}
+    steps:
+      - id: setenv
+        run: |
+          if [[ "${{github.ref_name}}" =~ production ]]
+          then
+            echo Environment is Production
+            echo "current_env=Production" >> $GITHUB_OUTPUT
+          elif [[ "${{github.ref_name}}" =~ development ]]
+          then
+            echo Environment is Development
+            echo "current_env=Development" >> $GITHUB_OUTPUT
+          else
+            echo Unkown Environment
+          fi
