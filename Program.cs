@@ -18,6 +18,7 @@ namespace PowerFxWasm
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
+            Console.SetOut(TextWriter.Null);
             ////builder.RootComponents.Add<App>("#app");
             ////builder.RootComponents.Add<HeadOutlet>("head::after");
 
@@ -179,8 +180,15 @@ namespace PowerFxWasm
             var sendToClientData = new List<string>();
             var languageServer = new LanguageServer(sendToClientData.Add, scopeFactory);
 
-            languageServer.OnDataReceived(body.ToString());
-            return JsonSerializer.Serialize(sendToClientData.ToArray());
+            try
+            {
+                languageServer.OnDataReceived(body.ToString());
+                return JsonSerializer.Serialize(sendToClientData.ToArray());
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
