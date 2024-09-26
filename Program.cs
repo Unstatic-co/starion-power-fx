@@ -179,8 +179,15 @@ namespace PowerFxWasm
             var sendToClientData = new List<string>();
             var languageServer = new LanguageServer(sendToClientData.Add, scopeFactory);
 
-            languageServer.OnDataReceived(body.ToString());
-            return JsonSerializer.Serialize(sendToClientData.ToArray());
+            try
+            {
+                languageServer.OnDataReceived(body.ToString());
+                return JsonSerializer.Serialize(sendToClientData.ToArray());
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
